@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevStart: Beginner Web Developer Hub</title>
+    <style>
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-tertiary: #334155;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent-color: #38bdf8;
+            --accent-hover: #0284c7;
+            --success: #22c55e;
+            --warning: #eab308;
+            --danger: #ef4444;
+            --card-border: #475569;
+            --font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+        }
+
+        [data-theme="light"] {
+            --bg-primary: #f8fafc;
+            --bg-secondary: #ffffff;
+            --bg-tertiary: #e2e8f0;
+            --text-primary: #0f172a;
+            --text-secondary: #64748b;
+            --accent-color: #0284c7;
+            --accent-hover: #0369a1;
+            --card-border: #cbd5e1;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background-color: var(--bg-secondary);
+            border-bottom: 1px solid var(--card-border);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo-icon {
+            background: linear-gradient(135deg, #38bdf8, #818cf8);
+            color: #0f172a;
+            font-weight: bold;
+            font-size: 1.25rem;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        h1 {
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .theme-toggle-btn {
+            background: transparent;
+            border: 1px solid var(--card-border);
+            color: var(--text-primary);
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .theme-toggle-btn:hover {
+            background-color: var(--bg-tertiary);
+        }
+
+        nav {
+            background-color: var(--bg-secondary);
+            border-bottom: 1px solid var(--card-border);
+            display: flex;
+            overflow-x: auto;
+            padding: 0 1rem;
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid transparent;
+            color: var(--text-secondary);
+            padding: 1rem 1.25rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .nav-btn:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-btn.active {
+            color: var(--accent-color);
+            border-bottom-color: var(--accent-color);
+        }
+
+        main {
+            flex: 1;
+            padding: 1.5rem;
+            max-width: 1400px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Common Elements */
+        .btn {
+            background-color: var(--accent-color);
+            color: #ffffff;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .btn:hover {
+            background-color: var(--accent-hover);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--card-border);
+            color: var(--text-primary);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--bg-tertiary);
+        }
+
+        .card {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Sandbox Layout */
+        .sandbox-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            height: calc(100vh - 180px);
+            min-height: 500px;
+        }
+
+        @media (max-width: 900px) {
+            .sandbox-container {
+                grid-template-columns: 1fr;
+                height: auto;
+            }
+        }
+
+        .editors-column {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            height: 100%;
+        }
+
+        .editor-box {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .editor-header {
+            background-color: var(--bg-tertiary);
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        textarea {
+            flex: 1;
+            background: transparent;
+            color: var(--text-primary);
+            border: none;
+            padding: 0.75rem;
+            font-family: var(--font-mono);
+            font-size: 0.875rem;
+            resize: none;
+            outline: none;
+            line-height: 1.4;
+        }
+
+        .preview-box {
+            background-color: #ffffff;
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            height: 100%;
+        }
+
+        .preview-header {
+            background-color: var(--bg-tertiary);
+            color: var(--text-primary);
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background-color: #ffffff;
+        }
+
+        /* Cheat Sheet */
+        .search-bar {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--card-border);
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+        }
+
+        .cheat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1rem;
+        }
+
+        .cheat-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: var(--accent-color);
+        }
+
+        .cheat-card p {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.75rem;
+        }
+
+        .code-block {
+            background-color: var(--bg-primary);
+            border: 1px solid var(--card-border);
+            border-radius: 6px;
+            padding: 0.75rem;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            position: relative;
+            overflow-x: auto;
+            white-space: pre-wrap;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
+        }
+
+        /* Quiz Styling */
+        .quiz-container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .option-btn {
+            width: 100%;
+            text-align: left;
+            padding: 0.875rem 1rem;
+            margin-bottom: 0.5rem;
+            background-color: var(--bg-tertiary);
+            border: 1px solid var(--card-border);
+            color: var(--text-primary);
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+
+        .option-btn:hover {
+            border-color: var(--accent-color);
+        }
+
+        .option-btn.correct {
+            background-color: rgba(34, 197, 94, 0.2);
+            border-color: var(--success);
+        }
+
+        .option-btn.incorrect {
+            background-color: rgba(239, 68, 68, 0.2);
+            border-color: var(--danger);
+        }
+
+        .feedback-box {
+            padding: 1rem;
+            border-radius: 6px;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .feedback-box.show {
+            display: block;
+        }
+
+        .score-board {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        /* Ideas Generator */
+        .filter-container {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            border: 1px solid var(--card-border);
+            background: transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+
+        .filter-btn.active {
+            background-color: var(--accent-color);
+            color: #ffffff;
+            border-color: var(--accent-color);
+        }
+
+        .ideas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .tag-beginner { background-color: rgba(34, 197, 94, 0.2); color: var(--success); }
+        .tag-intermediate { background-color: rgba(234, 179, 8, 0.2); color: var(--warning); }
+
+        /* Scratchpad */
+        .notes-textarea {
+            width: 100%;
+            height: 300px;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 1rem;
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            font-size: 0.95rem;
+            resize: vertical;
+        }
+
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        /* Toast Notifications */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 0.75rem 1.25rem;
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <div class="logo-icon">&lt;/&gt;</div>
+            <h1>DevStart Hub</h1>
+        </div>
+        <div class="header-actions">
+            <button class="theme-toggle-btn" id="theme-toggle">
+                <span id="theme-icon">🌙</span> Dark Mode
+            </button>
+        </div>
+    </header>
+
+    <nav>
+        <button class="nav-btn active" onclick="switchTab('sandbox')">Code Sandbox</button>
+        <button class="nav-btn" onclick="switchTab('cheatsheet')">Cheat Sheet</button>
+        <button class="nav-btn" onclick="switchTab('quiz')">Developer Quiz</button>
+        <button class="nav-btn" onclick="switchTab('ideas')">Project Ideas</button>
+        <button class="nav-btn" onclick="switchTab('scratchpad')">Scratchpad</button>
+    </nav>
+
+    <main>
+        <!-- TAB 1: CODE SANDBOX -->
+        <section id="sandbox" class="tab-content active">
+            <div style="margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center;">
+                <h2>Interactive Code Sandbox</h2>
+                <button class="btn btn-outline" onclick="loadSandboxPreset()">Load Example Preset</button>
+            </div>
+            <div class="sandbox-container">
+                <div class="editors-column">
+                    <div class="editor-box">
+                        <div class="editor-header">HTML</div>
+                        <textarea id="html-code" placeholder="Enter HTML here..." oninput="updatePreview()"></textarea>
+                    </div>
+                    <div class="editor-box">
+                        <div class="editor-header">CSS</div>
+                        <textarea id="css-code" placeholder="Enter CSS here..." oninput="updatePreview()"></textarea>
+                    </div>
+                    <div class="editor-box">
+                        <div class="editor-header">JavaScript</div>
+                        <textarea id="js-code" placeholder="Enter JS here..." oninput="updatePreview()"></textarea>
+                    </div>
+                </div>
+                <div class="preview-box">
+                    <div class="preview-header">
+                        Live Preview
+                        <button class="btn btn-outline" style="padding: 0.2rem 0.5rem; font-size: 0.75rem;" onclick="updatePreview()">Refresh</button>
+                    </div>
+                    <iframe id="preview-frame"></iframe>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 2: CHEAT SHEET -->
+        <section id="cheatsheet" class="tab-content">
+            <h2>Quick Reference Cheat Sheet</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 1rem;">Essential web development snippets at your fingertips.</p>
+            <input type="text" id="cheat-search" class="search-bar" placeholder="Search references (e.g., flexbox, array, button)..." oninput="filterCheatSheet()">
+            <div class="cheat-grid" id="cheat-grid"></div>
+        </section>
+
+        <!-- TAB 3: QUIZ -->
+        <section id="quiz" class="tab-content">
+            <div class="quiz-container">
+                <div id="quiz-card" class="card">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+                        <span id="quiz-progress" style="color: var(--text-secondary); font-size: 0.875rem;">Question 1 of 5</span>
+                        <span id="quiz-score" style="color: var(--accent-color); font-weight: bold;">Score: 0</span>
+                    </div>
+                    <h3 id="quiz-question" style="margin-bottom: 1.25rem;">Question text will go here...</h3>
+                    <div id="quiz-options"></div>
+                    <div id="quiz-feedback" class="feedback-box"></div>
+                    <button id="next-btn" class="btn" style="margin-top: 1rem; display: none;" onclick="nextQuestion()">Next Question</button>
+                </div>
+                <div id="quiz-results" class="card score-board" style="display: none;">
+                    <h2>Quiz Completed! 🎉</h2>
+                    <p id="final-score" style="font-size: 1.5rem; margin: 1rem 0; color: var(--accent-color);"></p>
+                    <button class="btn" onclick="resetQuiz()">Restart Quiz</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 4: PROJECT IDEAS -->
+        <section id="ideas" class="tab-content">
+            <h2>Beginner Project Ideas</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 1rem;">Practical projects to build your developer portfolio.</p>
+            <div class="filter-container">
+                <button class="filter-btn active" onclick="filterIdeas('all', this)">All Ideas</button>
+                <button class="filter-btn" onclick="filterIdeas('beginner', this)">Beginner</button>
+                <button class="filter-btn" onclick="filterIdeas('intermediate', this)">Intermediate</button>
+            </div>
+            <div class="ideas-grid" id="ideas-grid"></div>
+        </section>
+
+        <!-- TAB 5: SCRATCHPAD -->
+        <section id="scratchpad" class="tab-content">
+            <h2>Developer Scratchpad</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 1rem;">Auto-saves quick code snippets and notes to your browser storage.</p>
+            <textarea id="notes-input" class="notes-textarea" placeholder="Type your notes or scratchpad code here..." oninput="saveNotes()"></textarea>
+            <div class="status-bar">
+                <span id="save-status">All changes saved locally</span>
+                <span id="char-count">0 characters</span>
+            </div>
+        </section>
+    </main>
+
+    <div id="toast" class="toast">Action completed!</div>
+
+    <script>
+        // Data Structures
+        const cheatSheetData = [
+            { category: "HTML", title: "HTML5 Boilerplate", desc: "Basic document layout template.", code: "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Title</title>\n</head>\n<body>\n</body>\n</html>" },
+            { category: "HTML", title: "Image Tag", desc: "Embed image with fallback text.", code: "<img src=\"image.jpg\" alt=\"Description\" width=\"300\">" },
+            { category: "CSS", title: "Flexbox Centering", desc: "Center child element perfectly.", code: ".container {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}" },
+            { category: "CSS", title: "CSS Grid Responsive", desc: "Auto-fit responsive grid layout.", code: ".grid {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));\n  gap: 1rem;\n}" },
+            { category: "JavaScript", title: "Fetch API (Async/Await)", desc: "Retrieve data from an API endpoint.", code: "async function getData() {\n  const res = await fetch('https://api.example.com/data');\n  const data = await res.json();\n  console.log(data);\n}" },
+            { category: "JavaScript", title: "Array Iteration", desc: "Loop through items in an array.", code: "const items = ['HTML', 'CSS', 'JS'];\nitems.forEach(item => {\n  console.log(item);\n});" }
+        ];
+
+        const quizQuestions = [
+            { question: "What does HTML stand for?", options: ["Hyper Text Markup Language", "High Tech Modern Language", "Hyperlink and Text Marking Language", "Home Tool Markup Language"], correct: 0, exp: "HTML is the standard markup language for creating Web pages." },
+            { question: "Which CSS property changes text color?", options: ["font-color", "text-color", "color", "background-color"], correct: 2, exp: "The 'color' property in CSS specifies the color of text." },
+            { question: "Which keyword declares a block-scoped variable in modern JS?", options: ["var", "let", "def", "string"], correct: 1, exp: "'let' and 'const' provide block scope in ES6 JavaScript." },
+            { question: "What is the purpose of localStorage in web browsers?", options: ["Run server code", "Store persistent key-value data client-side", "Style web elements", "Format database tables"], correct: 1, exp: "localStorage allows storing key-value pairs persistently in the user browser." },
+            { question: "Which HTML tag is used to link external CSS stylesheets?", options: ["<script>", "<style>", "<link>", "<css>"], correct: 2, exp: "The <link rel='stylesheet' href='...'> tag links external CSS files." }
+        ];
+
+        const projectIdeas = [
+            { title: "Personal Portfolio Website", level: "beginner", desc: "Create a simple multi-section responsive web page showcasing your profile, skills, and contact info.", steps: ["Structure HTML tags", "Apply flexbox/grid layout", "Add light/dark mode switch"] },
+            { title: "Interactive Quiz App", level: "beginner", desc: "Build a multiple-choice quiz application with score calculation and dynamic UI updates.", steps: ["Define questions array", "Handle button click events", "Compute final score state"] },
+            { title: "Weather Web Application", level: "intermediate", desc: "Fetch live weather data from a public REST API based on user input city name.", steps: ["Register for API Key", "Use Fetch API async/await", "Display weather details in DOM"] },
+            { title: "Task Tracking Dashboard", level: "intermediate", desc: "Develop a CRUD todo list app with category filters and persistent localStorage backing.", steps: ["Setup state array", "Build CRUD operations", "Sync array changes to localStorage"] }
+        ];
+
+        // State variables
+        let currentQuizIndex = 0;
+        let score = 0;
+
+        // Core App Initialization
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCheatSheet(cheatSheetData);
+            renderQuiz();
+            renderIdeas(projectIdeas);
+            loadSavedNotes();
+            loadSandboxPreset();
+        });
+
+        // Tab Switcher
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Dark/Light Theme Switcher
+        const themeBtn = document.getElementById('theme-toggle');
+        themeBtn.addEventListener('click', () => {
+            const isDark = document.body.getAttribute('data-theme') !== 'light';
+            document.body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+            document.getElementById('theme-icon').textContent = isDark ? '☀️' : '🌙';
+            themeBtn.childNodes[2].textContent = isDark ? ' Light Mode' : ' Dark Mode';
+        });
+
+        // Toast Notification System
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        // Code Sandbox Logic
+        function updatePreview() {
+            const html = document.getElementById('html-code').value;
+            const css = `<style>${document.getElementById('css-code').value}</style>`;
+            const js = `<script>${document.getElementById('js-code').value}<\/script>`;
+            const iframe = document.getElementById('preview-frame').contentWindow.document;
+            iframe.open();
+            iframe.write(html + css + js);
+            iframe.close();
+        }
+
+        function loadSandboxPreset() {
+            document.getElementById('html-code').value = `<div class="card">\n  <h2>Hello Developer! 👋</h2>\n  <p>Edit the code to test real-time changes.</p>\n  <button onclick="sayHello()">Click Me</button>\n</div>`;
+            document.getElementById('css-code').value = `body {\n  font-family: sans-serif;\n  padding: 20px;\n  background: #f0fdf4;\n}\n.card {\n  background: white;\n  padding: 20px;\n  border-radius: 8px;\n  box-shadow: 0 2px 8px rgba(0,0,0,0.1);\n}\nbutton {\n  background: #22c55e;\n  color: white;\n  border: none;\n  padding: 8px 16px;\n  border-radius: 4px;\n  cursor: pointer;\n  margin-top: 10px;\n}`;
+            document.getElementById('js-code').value = `function sayHello() {\n  alert('JavaScript function triggered successfully!');\n}`;
+            updatePreview();
+        }
+
+        // Cheat Sheet Logic
+        function renderCheatSheet(items) {
+            const container = document.getElementById('cheat-grid');
+            container.innerHTML = items.map(item => `
+                <div class="card cheat-card">
+                    <h3>[${item.category}] ${item.title}</h3>
+                    <p>${item.desc}</p>
+                    <div class="code-block">
+                        <button class="btn btn-outline copy-btn" onclick="copyCode(this)">Copy</button>
+                        <code>${escapeHtml(item.code)}</code>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterCheatSheet() {
+            const query = document.getElementById('cheat-search').value.toLowerCase();
+            const filtered = cheatSheetData.filter(i => 
+                i.title.toLowerCase().includes(query) || 
+                i.category.toLowerCase().includes(query) ||
+                i.desc.toLowerCase().includes(query)
+            );
+            renderCheatSheet(filtered);
+        }
+
+        function copyCode(btn) {
+            const code = btn.nextElementSibling.textContent;
+            navigator.clipboard.writeText(code);
+            showToast('Code snippet copied to clipboard!');
+        }
+
+        function escapeHtml(str) {
+            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        }
+
+        // Quiz Logic
+        function renderQuiz() {
+            if (currentQuizIndex >= quizQuestions.length) {
+                document.getElementById('quiz-card').style.display = 'none';
+                document.getElementById('quiz-results').style.display = 'block';
+                document.getElementById('final-score').textContent = `Your Score: ${score} / ${quizQuestions.length}`;
+                return;
+            }
+            const q = quizQuestions[currentQuizIndex];
+            document.getElementById('quiz-progress').textContent = `Question ${currentQuizIndex + 1} of ${quizQuestions.length}`;
+            document.getElementById('quiz-score').textContent = `Score: ${score}`;
+            document.getElementById('quiz-question').textContent = q.question;
+            document.getElementById('quiz-feedback').classList.remove('show');
+            document.getElementById('next-btn').style.display = 'none';
+
+            const opts = document.getElementById('quiz-options');
+            opts.innerHTML = q.options.map((opt, i) => `
+                <button class="option-btn" onclick="selectAnswer(${i})">${opt}</button>
+            `).join('');
+        }
+
+        function selectAnswer(selectedIndex) {
+            const q = quizQuestions[currentQuizIndex];
+            const btns = document.querySelectorAll('.option-btn');
+            btns.forEach(btn => btn.disabled = true);
+
+            const feedback = document.getElementById('quiz-feedback');
+            if (selectedIndex === q.correct) {
+                btns[selectedIndex].classList.add('correct');
+                feedback.style.backgroundColor = 'rgba(34, 197, 94, 0.2)';
+                feedback.innerHTML = `<strong>Correct!</strong> ${q.exp}`;
+                score++;
+            } else {
+                btns[selectedIndex].classList.add('incorrect');
+                btns[q.correct].classList.add('correct');
+                feedback.style.backgroundColor = 'rgba(239, 68, 68, 0.2)';
+                feedback.innerHTML = `<strong>Incorrect.</strong> ${q.exp}`;
+            }
+            feedback.classList.add('show');
+            document.getElementById('next-btn').style.display = 'inline-block';
+            document.getElementById('quiz-score').textContent = `Score: ${score}`;
+        }
+
+        function nextQuestion() {
+            currentQuizIndex++;
+            renderQuiz();
+        }
+
+        function resetQuiz() {
+            currentQuizIndex = 0;
+            score = 0;
+            document.getElementById('quiz-card').style.display = 'block';
+            document.getElementById('quiz-results').style.display = 'none';
+            renderQuiz();
+        }
+
+        // Project Ideas Logic
+        function renderIdeas(items) {
+            const container = document.getElementById('ideas-grid');
+            container.innerHTML = items.map(item => `
+                <div class="card">
+                    <span class="tag tag-${item.level}">${item.level}</span>
+                    <h3 style="margin-bottom: 0.5rem;">${item.title}</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.875rem; margin-bottom: 1rem;">${item.desc}</p>
+                    <strong style="font-size: 0.85rem; display: block; margin-bottom: 0.5rem;">Implementation Steps:</strong>
+                    <ol style="padding-left: 1.25rem; font-size: 0.85rem; color: var(--text-secondary);">
+                        ${item.steps.map(s => `<li>${s}</li>`).join('')}
+                    </ol>
+                </div>
+            `).join('');
+        }
+
+        function filterIdeas(level, btn) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            if (level === 'all') {
+                renderIdeas(projectIdeas);
+            } else {
+                renderIdeas(projectIdeas.filter(i => i.level === level));
+            }
+        }
+
+        // Scratchpad LocalStorage Logic
+        function saveNotes() {
+            const val = document.getElementById('notes-input').value;
+            localStorage.setItem('devstart_notes', val);
+            document.getElementById('char-count').textContent = `${val.length} characters`;
+            document.getElementById('save-status').textContent = 'Saved to browser storage';
+        }
+
+        function loadSavedNotes() {
+            const saved = localStorage.getItem('devstart_notes') || '';
+            const input = document.getElementById('notes-input');
+            input.value = saved;
+            document.getElementById('char-count').textContent = `${saved.length} characters`;
+        }
+    </script>
+</body>
+</html>
