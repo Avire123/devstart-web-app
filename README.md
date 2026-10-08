@@ -5,25 +5,80 @@
 [![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat&logo=css3&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/CSS)
 [![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 
-> A lightweight, single-file interactive web app designed to give beginner developers essential tools right inside their browser—no build steps or dependencies required! ✨
+> A lightweight, beginner-friendly web app that brings together coding tools, learning resources, and hands-on practice in one place—without the need for setup, installs, or a build process. ✨
+
+DevStart is built for people starting their journey in web development. It gives you a practical toolkit for writing HTML, CSS, and JavaScript, checking your code instantly, and reinforcing core concepts through interactive practice.
 
 ---
 
-## 🌟 Key Features
+## 🌟 What this app includes
 
-* **💻 Interactive Code Sandbox**: Write HTML, CSS, and JS side-by-side with an instant, real-time live preview iframe.
-* **📚 Quick Cheat Sheet**: Searchable reference cards for core web development concepts with one-click copy buttons.
-* **🧠 Developer Knowledge Quiz**: Test core web concepts with immediate answers, explanations, and dynamic score tracking.
-* **💡 Project Ideas Generator**: Practice project prompts categorized by difficulty with actionable step-by-step guidance.
-* **📝 Local Scratchpad**: Jot down code snippets or quick notes with auto-save persistence via `localStorage`.
-* **🌓 Dark/Light Mode**: Toggle themes seamlessly for comfortable coding day or night.
+- **💻 Interactive code sandbox**: Write HTML, CSS, and JavaScript side-by-side and preview the result instantly in an iframe.
+- **📚 Cheat sheet library**: Quick references for key web development topics with copy-to-clipboard support.
+- **🧠 Knowledge quiz**: Test yourself on important front-end concepts and get immediate explanations.
+- **💡 Project ideas generator**: Explore beginner-friendly project prompts with practical steps and ideas.
+- **📝 Scratchpad**: Save quick notes and snippets locally in the browser using `localStorage`.
+- **🌓 Light/Dark theme toggle**: Switch themes for a more comfortable coding experience.
 
 ---
 
-## 📂 Project Structure
+## 🧩 Project structure
 
 ```text
 devstart-web-app/
-├── index.html        # Complete web app (HTML layout, CSS styles, & JS logic)
-├── README.md         # Documentation & project guide
-└── .gitignore        # Ignores unwanted system/editor files
+├── index.html        # Main app UI, styles, and behavior
+├── README.md         # Project documentation
+├── .gitignore        # Ignored editor/system files
+└── .git              # Git metadata
+```
+
+---
+
+## ▶️ How to run it
+
+Since this project is a static front-end app, you can run it with no install steps:
+
+1. Clone or download the repository.
+2. Open `index.html` in your browser.
+3. Start coding and experimenting immediately.
+
+You can also serve it locally with a simple static server if preferred, for example:
+
+```bash
+python -m http.server 8000
+```
+
+Then open:
+
+```text
+http://localhost:8000
+```
+
+---
+
+## 🎯 Who is it for?
+
+This app is ideal for:
+
+- Absolute beginners learning the basics of web development
+- Students practicing HTML, CSS, and JavaScript fundamentals
+- Anyone who wants a quick interactive dev workspace in one file
+- People who want to learn by building, testing, and exploring
+
+---
+
+## 🚀 Why DevStart?
+
+Most learning resources split theory, practice, and tools into separate places. DevStart brings them together in a single focused environment so learners can move from reading to building faster.
+
+---
+
+## 📜 License
+
+This project is licensed under the [MIT License](https://opensource.org/licenses/MIT).
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome. If you have ideas for new learning tools, better quiz content, or UI improvements, feel free to open an issue or submit a pull request.
