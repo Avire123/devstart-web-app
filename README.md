@@ -54,6 +54,12 @@ Then open:
 http://localhost:8000
 ```
 
+## 🌐 Live app
+
+Once GitHub Pages is enabled, the app is available at [https://avire123.github.io/devstart-web-app/](https://avire123.github.io/devstart-web-app/). The GitHub Actions workflow deploys updates whenever changes are pushed to `main`.
+
+To enable Pages for this repository, open **Settings → Pages** and set the build source to **GitHub Actions**.
+
 ---
 
 ## 🎯 Who is it for?
